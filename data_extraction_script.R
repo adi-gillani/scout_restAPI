@@ -8,7 +8,7 @@ library(dplyr)
 #extracting data for outside store daily footfall
 
 #feeding the API URL, extracting data and data framing it!
-daily_outside_footfall_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_count_unique_days&zone_code=444&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+daily_outside_footfall_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_count_unique_days&zone_code=444&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 outside_footfall_daily <- fromJSON(daily_outside_footfall_url)
 outside_footfall_daily_df <- as.data.frame(outside_footfall_daily)
 
@@ -17,7 +17,7 @@ outside_cols <- c("date", "zone_code", "zone_name", "mac_count", "outside_footfa
 colnames(outside_footfall_daily_df) <- outside_cols
 
 #feed, extract, frame
-daily_inside_footfall_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_count_unique_days&zone_code=901&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+daily_inside_footfall_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_count_unique_days&zone_code=901&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 inside_store_daily <- fromJSON(daily_inside_footfall_url)
 inside_footfall_daily_df <- as.data.frame(inside_store_daily)
 
@@ -32,6 +32,14 @@ daily_footfall_daily <- daily_footfall_daily[,c("date","inside_footfall","outsid
 #calculating conversion
 daily_footfall_daily <- mutate(daily_footfall_daily, conversion = (as.numeric(daily_footfall_daily$inside_footfall)/as.numeric(daily_footfall_daily$outside_footfall)))
 
+
+#assigning appropriate column types
+
+daily_footfall_daily$date <- as.Date(daily_footfall_daily$date)
+daily_footfall_daily$inside_footfall <- as.numeric(daily_footfall_daily$inside_footfall)
+daily_footfall_daily$outside_footfall <- as.numeric(daily_footfall_daily$outside_footfall)
+daily_footfall_daily$conversion <- as.numeric(daily_footfall_daily$conversion)
+
 #exporting the data to a csv
 write.csv(daily_footfall_daily, "D:/Philips Publika/Scout Data Files/daily_footfall_trend.csv", row.names = FALSE)
 
@@ -40,7 +48,7 @@ write.csv(daily_footfall_daily, "D:/Philips Publika/Scout Data Files/daily_footf
 
 #feed, extract, frame - OUTSIDE STORE
 
-outside_store_hourly_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_count_unique_hours&zone_code=444&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+outside_store_hourly_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_count_unique_hours&zone_code=444&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 outside_store_hourly <- fromJSON(outside_store_hourly_url)
 outside_store_hourly_df <- as.data.frame(outside_store_hourly)
 
@@ -50,7 +58,7 @@ colnames(outside_store_hourly_df) <- hourly_outside_cols
 
 #feed, extract, frame - INSIDE STORE
 
-inside_store_hourly_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_count_unique_hours&zone_code=901&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+inside_store_hourly_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_count_unique_hours&zone_code=901&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 inside_store_hourly <- fromJSON(inside_store_hourly_url)
 inside_store_hourly_df <- as.data.frame(inside_store_hourly)
 
@@ -73,7 +81,7 @@ write.csv(hourly_footfall_trend, "D:/Philips Publika/Scout Data Files/hourly_foo
 
 #feed, extract, frame - OUTSIDE STORE
 
-outside_avg_duration_weekly_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_duration_average_weeks&zone_code=444&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+outside_avg_duration_weekly_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_duration_average_weeks&zone_code=444&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 outside_avg_duration_weekly <- fromJSON(outside_avg_duration_weekly_url)
 outside_avg_duration_weekly_df <- as.data.frame(outside_avg_duration_weekly)
 
@@ -83,7 +91,7 @@ colnames(outside_avg_duration_weekly_df) <- outside_avg_duration_weekly_cols
 
 #feed, extract, frame - INSIDE STORE
 
-inside_avg_duration_weekly_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_duration_average_weeks&zone_code=901&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+inside_avg_duration_weekly_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_duration_average_weeks&zone_code=901&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 inside_avg_duration_weekly <- fromJSON(inside_avg_duration_weekly_url)
 inside_avg_duration_weekly_df <- as.data.frame(inside_avg_duration_weekly)
 
@@ -102,7 +110,7 @@ write.csv(avg_duration_weekly, "D:/Philips Publika/Scout Data Files/avg_duration
 #PART 4 - Extracting Zone Visit Frequency per Week split in Bins
 
 #feed, extract, frame - INSIDE STORE
-inside_visit_frequency_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_frequency_weeks&zone_code=901&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+inside_visit_frequency_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_frequency_weeks&zone_code=901&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 inside_visit_frequency <- fromJSON(inside_visit_frequency_url)
 inside_visit_frequency_df <- as.data.frame(inside_visit_frequency)
 
@@ -112,7 +120,7 @@ colnames(inside_visit_frequency_df) <- inside_visit_frequency_cols
 
 
 #feed, extract, frame - OUTSIDE STORE
-outside_visit_frequency_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_frequency_weeks&zone_code=444&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+outside_visit_frequency_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_frequency_weeks&zone_code=444&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 outside_visit_frequency <- fromJSON(outside_visit_frequency_url)
 outside_visit_frequency_df <- as.data.frame(outside_visit_frequency)
 
@@ -130,7 +138,7 @@ write.csv(visit_frequency, "D:/Philips Publika/Scout Data Files/visit_frequency.
 
 
 # PART 5 - Extracting Cell Phone Brands - Weekly
-outside_brands_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_brand_weeks&zone_code=444&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+outside_brands_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_brand_weeks&zone_code=444&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 outside_brands <- fromJSON(outside_brands_url)
 outside_brands_df <- as.data.frame(outside_brands)
 
@@ -143,7 +151,7 @@ write.csv(outside_brands_df, "D:/Philips Publika/Scout Data Files/phone_brands_o
 
 #feed, extract, frame - INSIDE STORE
 
-inside_brands_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_brand_weeks&zone_code=901&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+inside_brands_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_brand_weeks&zone_code=901&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 inside_brands <- fromJSON(inside_brands_url)
 inside_brands_df <- as.data.frame(inside_brands)
 
@@ -157,7 +165,7 @@ write.csv(inside_brands_df, "D:/Philips Publika/Scout Data Files/phone_brands_ou
 #PART 6 - Extracting Duration per Week divided in Slots
 
 #feed, extract, frame - OUTSIDE STORE
-outside_zone_duration_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_duration_weeks&zone_code=444&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+outside_zone_duration_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_duration_weeks&zone_code=444&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 outside_zone_duration <- fromJSON(outside_zone_duration_url)
 outside_zone_duration_df <- as.data.frame(outside_zone_duration)
 
@@ -167,7 +175,7 @@ colnames(outside_zone_duration_df) <- outside_zone_cols
 
 
 #feed, extract, frame - INSIDE STORE
-inside_zone_duration_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_duration_weeks&zone_code=901&time_start=2019-09-23&time_stop=2019-11-03&format=json"
+inside_zone_duration_url <- "https://customer.needinsights.com/rest/?api_key=4d76114e78ed1db951cea3fdc6178016644c374b&metric=zone_duration_weeks&zone_code=901&time_start=2019-10-19&time_stop=2019-11-24&format=json"
 inside_zone_duration <- fromJSON(inside_zone_duration_url)
 inside_zone_duration_df <- as.data.frame(inside_zone_duration)
 

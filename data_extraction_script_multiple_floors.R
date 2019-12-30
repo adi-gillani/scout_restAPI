@@ -159,7 +159,7 @@ first_floor_brands_df <- as.data.frame(first_floor_brands)
 colnames(first_floor_brands_df) <- ground_floor_brands_col
 
 #exporting data to a csv
-write.csv(first_floor_brands_df, "D:/Sen Heng/Scout Data - October 21 - November 24/phone_brands_ground_floor.csv", row.names = FALSE)
+write.csv(first_floor_brands_df, "D:/Sen Heng/Scout Data - October 21 - November 24/phone_brands_first_floor.csv", row.names = FALSE)
 
 
 #PART 6 - Extracting Duration per Week divided in Slots
